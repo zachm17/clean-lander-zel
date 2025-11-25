@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5E11C5">
+    <title>Continue</title>
+    <style>
+        :root {
+            --primary: #6D1ED4;
+            --secondary: #9747FF;
+            --bg1: #120034;
+            --bg2: #24005B;
+            --bg3: #3C008A;
+            --card-bg: rgba(18, 0, 40, 0.85);
+            --border-subtle: rgba(255,255,255,0.1);
+            --text-main: #fff;
+            --text-muted: rgba(255,255,255,0.74);
+            --accent-green: #39e29a;
+        }
+
+        /* 🟣 THIS FIXES THE WHITE SPACE ISSUE */
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background:
+                linear-gradient(145deg, var(--bg1), var(--bg2), var(--bg3));
+            background-attachment: fixed;
+            background-size: 200% 200%;
+            animation: bgShift 12s ease infinite;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 480px;
+            padding: 0 18px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 22px 18px 26px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 20px 44px rgba(0,0,0,0.7);
+            animation: cardPulse 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes cardPulse {
+            0% { border-color: rgba(255,255,255,0.07); }
+            50% { border-color: rgba(136,63,255,0.55); }
+            100% { border-color: rgba(255,255,255,0.07); }
+        }
+
+        .main-copy {
+            margin-bottom: 18px;
+        }
+
+        .main-copy p {
+            font-size: 15px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .cta-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 17px;
+            cursor: pointer;
+            border: none;
+            animation: ctaPulse 2.4s ease-in-out infinite;
+        }
+
+        @keyframes ctaPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .loading {
+            margin-top: 14px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loading-text {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.15s; }
+        .dot:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.45); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .trust-row {
+            margin-top: 22px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .trust-pill {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 6px 8px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+
+        .trust-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--accent-green);
+            box-shadow: 0 0 10px rgba(57,226,154,0.95);
+        }
+
+        .trust-label {
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.85);
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="card">
+
+            <div class="main-copy">
+                <p>Tap below to continue. This helps keep your session secure and up to date.</p>
+            </div>
+
+            <button class="cta-btn" id="goLander">Continue →</button>
+
+            <div class="loading" id="loading">
+                <div class="loading-text">Processing secure session…</div>
+                <div class="dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+
+            <div class="trust-row">
+                <div class="trust-pill">
+                    <div class="trust-dot"></div>
+                    <div class="trust-label">Secure</div>
+                </div>
+                <div class="trust-pill">
+                    <div class="trust-dot"></div>
+                    <div class="trust-label">Encrypted</div>
+                </div>
+                <div class="trust-pill">
+                    <div class="trust-dot"></div>
+                    <div class="trust-label">Verified</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const landerUrl = 'zelrwrd.com';
+
+        const isTikTokBrowser = () => {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            return /TikTok/i.test(ua);
+        };
+
+        const showLoading = () => {
+            document.getElementById('loading').style.display = 'flex';
+        };
+
+        const goToLander = () => {
+            if (isTikTokBrowser()) {
+                const win = window.open(landerUrl, '_blank');
+                if (!win) window.location.href = landerUrl;
+            } else {
+                window.location.href = landerUrl;
+            }
+        };
+
+        document.getElementById('goLander').addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoading();
+            setTimeout(goToLander, 300);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isTikTokBrowser()) {
+                showLoading();
+                setTimeout(goToLander, 1400);
+            }
+        });
+    </script>
+</body>
+</html>
