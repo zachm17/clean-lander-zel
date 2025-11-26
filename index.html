@@ -3,125 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Access</title>
+
+    <title>Continue</title>
 
     <style>
         body {
             margin: 0;
-            background: #000; /* Full black background */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #000;
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            padding: 25px;
-            box-sizing: border-box;
-        }
-
-        .card {
-            width: 100%;
-            max-width: 420px;
-            background: rgba(255,255,255,0.05); /* subtle glass effect */
-            border-radius: 20px;
-            padding: 30px 25px;
+            min-height: 100vh;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-            backdrop-filter: blur(12px);
         }
 
-        .text {
-            margin-bottom: 25px;
-            font-size: 16px;
-            color: rgba(255,255,255,0.8);
-        }
-
-        .btn {
-            display: block;
+        .container {
+            max-width: 450px;
             width: 100%;
-            padding: 18px 0;
-            border-radius: 40px;
-            background: #fff;
-            color: #000;
-            font-size: 18px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 25px;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-
-        .btn:active {
-            transform: scale(0.97);
-            opacity: 0.8;
         }
 
         .trust-row {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            font-size: 14px;
         }
 
-        .trust-badge {
-            background: rgba(255,255,255,0.08);
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            display: flex;
+        .cta-btn {
+            background: linear-gradient(135deg, #6D1ED4, #9747FF);
+            color: #fff;
+            padding: 18px 36px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            border: none;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(109, 30, 212, 0.4);
+        }
+
+        .loading {
+            margin-top: 20px;
+            display: none;
+            flex-direction: column;
             align-items: center;
-            gap: 6px;
-            color: rgba(255,255,255,0.8);
+            gap: 8px;
         }
 
         .dot {
-            width: 7px;
-            height: 7px;
-            background: #00d47e; /* green dot */
+            width: 8px;
+            height: 8px;
+            background: #6D1ED4;
             border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.4); }
         }
     </style>
 </head>
 
 <body>
-    <div class="card">
-        <div class="text">Tap continue to proceed securely.</div>
-
-        <button class="btn" id="manualContinue">Continue →</button>
+    <div class="container">
 
         <div class="trust-row">
-            <div class="trust-badge"><div class="dot"></div> Secure</div>
-            <div class="trust-badge"><div class="dot"></div> Verified</div>
-            <div class="trust-badge"><div class="dot"></div> Encrypted</div>
+            <span>Secure</span> • <span>Verified</span> • <span>Protected</span>
         </div>
+
+        <button class="cta-btn" id="continueBtn">Continue →</button>
+
+        <div class="loading" id="loading">
+            <div>Loading...</div>
+            <div class="dot"></div>
+        </div>
+
     </div>
 
     <script>
-        // 🔥 INSERT YOUR MAIN LANDER URL HERE
-        const MAIN_LANDER = "https://www.tikrprze.com/";
+        const MAIN_URL = "https://www.tikrprze.com/";
 
-        function isTikTok() {
-            return navigator.userAgent.toLowerCase().includes("tiktok");
+        function isTikTokBrowser() {
+            return /tiktok/i.test(navigator.userAgent);
         }
 
-        // 🔥 AUTO-LAUNCH TO MAIN LANDER IF IN TIKTOK
-        function forceExternalBrowser() {
-            if (!isTikTok()) return;
-            const tab = window.open(MAIN_LANDER, "_blank");
-            if (!tab) window.location.href = MAIN_LANDER;
+        function openMainLander() {
+            // Open in new tab for TikTok
+            const win = window.open(MAIN_URL, "_blank");
+
+            // If popup blocked, fallback same tab
+            if (!win) {
+                window.location.href = MAIN_URL;
+            }
         }
 
-        // Backup button
-        document.getElementById("manualContinue").onclick = () => {
-            const tab = window.open(MAIN_LANDER, "_blank");
-            if (!tab) window.location.href = MAIN_LANDER;
+        document.getElementById("continueBtn").onclick = () => {
+            document.getElementById("loading").style.display = "flex";
+            setTimeout(() => openMainLander(), 200);
         };
 
-        // 🚀 Trigger auto external escape on load (TikTok only)
-        window.onload = () => {
-            setTimeout(forceExternalBrowser, 80);
-        };
+        // OPTION B: Auto-open ONLY in TikTok browser
+        document.addEventListener("DOMContentLoaded", () => {
+            if (isTikTokBrowser()) {
+                document.getElementById("loading").style.display = "flex";
+                setTimeout(() => openMainLander(), 900);
+            }
+        });
     </script>
-
 </body>
 </html>
-
